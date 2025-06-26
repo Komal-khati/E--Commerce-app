@@ -1,8 +1,13 @@
 import React from "react";
 import "./ProductDetail.scss";
 import dummyImg from "../../assets/naruto.jpeg";
+import { useParams } from "react-router-dom";
 
 function ProductDetail() {
+    const params = useParams();
+
+    console.log("params" , params);
+    
     return ( 
         <div className="ProductDetail">
      <div className="container">

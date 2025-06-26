@@ -49,6 +49,40 @@
                 }
             }
         }
+
+         .empty-cart-info {
+              display: flex;
+              flex-direction: column;
+              gap: 10px;
+              margin: 20px;
+              align-items: center;
+              justify-content: center;
+
+              .icon {
+                  font-size: 3rem;
+                  color: var(--secondary-text-color);
+              }
+
+              h4 {
+                  color: var(--secondary-text-color);
+              }
+          }
+
+          .checkout-info {
+              margin-top: 40px;
+              padding: 8px;
+              border-top: 1px solid rgba($color: #000000, $alpha:0.5);
+              .total-amount {
+                  display: flex;
+                  align-items: center;
+                  justify-content: space-between;
+              }
+
+              .checkout {
+                  margin: 16px 8px;
+                  text-align: center;
+              }
+        }
     }
 }
 
