@@ -1,12 +1,34 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./ProductDetail.scss";
-import dummyImg from "../../assets/naruto.jpeg";
+//import dummyImg from "../../assets/naruto.jpeg";
 import { useParams } from "react-router-dom";
+import { axiosClient } from "../../utils/axiosClient";
+import Loader from "../../components/loader/Loader";
 
 function ProductDetail() {
     const params = useParams();
+    const [product,setProduct] = useState(null);
+   const productKey =params.productId;
 
     console.log("params" , params);
+
+    async function fetchData() {
+        const productResponse = await axiosClient.get(
+            `api/products?filters[key][$eq]=${params.productId}&populate=*`
+        )
+        if (productResponse.data.data.length > 0) {
+            setProduct(productResponse.data.data[0]);
+        }
+    }
+
+    useEffect(() => {
+        setProduct(null);
+        fetchData();
+    },[params]);
+
+    if (!product) {
+    return <Loader/>
+      }
     
     return ( 
         <div className="ProductDetail">
@@ -14,18 +36,16 @@ function ProductDetail() {
          <div className="product-layout">
              <div className="product-img">
                  <img
-                     src={dummyImg}
-                     alt="product img"
+                     src={product?.attributes.image.data.attributes.url}
+                     alt={product?.attributes.title}
                      width ="400px"
                  />
              </div>
              <div className="product-info">
-                 <h1 className="heading">This is the Title, Wall Poster</h1>
-                 <h3 className="price">₹ 549</h3>
+                 <h1 className="heading">{product?.attributes.title}</h1>
+                 <h3 className="price">₹ {product?.attributes.price}</h3>
                  <p className="description">
-                     300 GSM Fine Art Matte Paper Elegent Black Frame made up of Premium Quality Synthetic Wood
-                     Industry-Recognized High-Quality Print Protective Matte Coating  Provides a Vivid Sharp and
-                     Non-Reflective Apperance
+                     {product?.attributes.desc}
                  </p>
                  <div className="cart-options">
                      <div className="quantity-selector">
